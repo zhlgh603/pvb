@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG  += console warn_on release
+CONFIG  += console warn_on
 CONFIG  -= qt
 TARGET = ../../bin/pvmore 
 DEPENDPATH += .
@@ -11,3 +11,9 @@ INCLUDEPATH += .
 
 # Input
 SOURCES += main.cpp
+
+include(../../common.pri)
+msvc {
+    TARGET = pvmore
+    DESTDIR = $${PVB_OUT_DIR}
+}

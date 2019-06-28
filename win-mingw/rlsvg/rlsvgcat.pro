@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG  += console warn_on release
+CONFIG  += console warn_on
 CONFIG  -= qt
 INCLUDEPATH += ../../rllib/rlsvg
 
@@ -11,3 +11,8 @@ INCLUDEPATH += ../../rllib/rlsvg
 HEADERS += ../../rllib/rlsvg/rlsvgcat.h
 SOURCES += ../../rllib/rlsvg/rlsvgcat.cpp
 TARGET = rlsvgcat
+
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+}

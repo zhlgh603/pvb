@@ -9,10 +9,11 @@ DEFINES        += "WINVER=0x0501"
 QT             += opengl                                  
 lessThan(QT_MAJOR_VERSION, 5) {
   QT           += xml svg webkit network
-  CONFIG       += uitools warn_on release                                    
+  CONFIG       += uitools warn_on
 }else{
-  QT           += printsupport multimedia uitools webkitwidgets widgets xml svg webkit network opengl
-  CONFIG       += warn_on release                                    
+  DEFINES      += USE_GOOGLE_WEBKIT_FORK
+  QT           += printsupport multimedia uitools webenginewidgets widgets xml svg network opengl
+  CONFIG       += warn_on
   LIBS         += -lws2_32
 }    
 QMAKE_CXXFLAGS += -mthreads
@@ -25,7 +26,7 @@ HEADERS       = ../../pvbrowser/mainwindow.h \
                 ../../pvbrowser/interpreter.h \                            
                 ../../pvbrowser/pvserver.h \                               
                 ../../pvbrowser/MyWidgets.h \                              
-                ../../pvbrowser/MyTextBrowser_v4.h \
+                ../../pvbrowser/MyTextBrowser_v5.h \
                 ../../pvbrowser/qimagewidget.h \                           
                 ../../pvbrowser/qdrawwidget.h \                            
                 ../../pvbrowser/pvglwidget.h \                             
@@ -42,7 +43,7 @@ SOURCES       = ../../pvbrowser/main.cpp \
                 ../../pvbrowser/tcputil.cpp \                              
                 ../../pvbrowser/interpreter.cpp \                          
                 ../../pvbrowser/MyWidgets.cpp \                            
-                ../../pvbrowser/MyTextBrowser_v4.cpp \
+                ../../pvbrowser/MyTextBrowser_v5.cpp \
                 ../../pvbrowser/QDrawWidget.cpp \                          
                 ../../pvbrowser/QImageWidget.cpp \                         
                 ../../pvbrowser/pvglwidget.cpp \                           
@@ -52,21 +53,28 @@ SOURCES       = ../../pvbrowser/main.cpp \
                 ../../pvbrowser/dlgmybrowser.cpp                           
                                                                            
                                                                            
+include(../../common.pri)
 #INCLUDEPATH  += ../../qwt/include                                         
-INCLUDEPATH  += ../../qwt/src                                              
+INCLUDEPATH  += ../../qwt/src
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+    LIBS += -L../../qwt/lib -lqwt -lopengl32 -lws2_32 -lglu32 -ladvapi32
+} else {
 LIBS         += ../../qwt/lib/libqwt.a                                     
 LIBS         += $(MINGWDIR)/i686-w64-mingw32/lib/libopengl32.a
+
 lessThan(QT_MAJOR_VERSION, 5) {
-LIBS         += $(MINGWDIR)/lib/libws2_32.a                                
-LIBS         += $(MINGWDIR)/lib/libimm32.a                                 
-LIBS         += $(MINGWDIR)/lib/libopengl32.a                              
-LIBS         += $(MINGWDIR)/lib/libglu32.a                                 
-LIBS         += $(MINGWDIR)/lib/libadvapi32.a                              
+    LIBS         += $(MINGWDIR)/lib/libws2_32.a
+    LIBS         += $(MINGWDIR)/lib/libimm32.a
+    LIBS         += $(MINGWDIR)/lib/libopengl32.a
+    LIBS         += $(MINGWDIR)/lib/libglu32.a
+    LIBS         += $(MINGWDIR)/lib/libadvapi32.a
 }else{
 LIBS         += $(MINGWDIR)/lib/libbfd.a
 LIBS         += $(MINGWDIR)/lib/libiberty.a
 LIBS         += $(MINGWDIR)/lib/libmangle.a
 LIBS         += $(MINGWDIR)/lib/libopcodes.a
+}
 }    
                                                                            
 ### begin USE_VTK #############################################            

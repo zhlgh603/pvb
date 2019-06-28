@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG  += console warn_on release
+CONFIG  += console warn_on
 CONFIG  -= qt
 INCLUDEPATH += ../../rllib/rlsvg
 
@@ -11,3 +11,8 @@ INCLUDEPATH += ../../rllib/rlsvg
 #HEADERS += ../../rllib/rlfind/rlfind.h
 SOURCES += ../../rllib/rlfind/rlfind.cpp
 TARGET = rlfind
+
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+}

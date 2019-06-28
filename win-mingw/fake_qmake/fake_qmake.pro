@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG  += warn_on release console
+CONFIG  += warn_on console
 CONFIG  -= qt
 
 HEADERS += fake_qmake.h
@@ -19,3 +19,9 @@ INCLUDEPATH   += ../../rllib/lib
 LIBS          += -lws2_32
 
 TARGET = fake_qmake
+
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+    LIBS += -ladvapi32
+}

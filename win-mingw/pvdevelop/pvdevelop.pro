@@ -1,14 +1,15 @@
 lessThan(QT_MAJOR_VERSION, 5) {
   QT         += opengl svg webkit
-  CONFIG     += uitools warn_on release
+  CONFIG     += uitools warn_on
   LIBS       += $(MINGWDIR)/lib/libws2_32.a                                
   LIBS       += $(MINGWDIR)/lib/libimm32.a                                 
   LIBS       += $(MINGWDIR)/lib/libopengl32.a                              
   LIBS       += $(MINGWDIR)/lib/libglu32.a                                 
   LIBS       += $(MINGWDIR)/lib/libadvapi32.a                              
 }else{
-  QT         += printsupport uitools webkitwidgets widgets opengl svg webkit
-  CONFIG     += warn_on release
+  DEFINES      += USE_GOOGLE_WEBKIT_FORK
+  QT         += printsupport uitools webenginewidgets widgets opengl svg
+  CONFIG     += warn_on
   LIBS       += -lws2_32                                
   LIBS       += -limm32                                
   LIBS       += -lopengl32                              
@@ -22,7 +23,7 @@ DEFINES      += "WINVER=0x0501"
 
 HEADERS       = ../../pvbrowser/webkit_ui_dlgtextbrowser.h \               
                 ../../pvbrowser/MyWidgets.h \                              
-                ../../pvbrowser/MyTextBrowser_v4.h \
+                ../../pvbrowser/MyTextBrowser_v5.h \
                 ../../pvbrowser/qwtwidgets.h \                             
                 ../../pvbrowser/qwtplotwidget.h \                          
                 ../../pvbrowser/qdrawwidget.h \                            
@@ -50,18 +51,10 @@ HEADERS       = ../../pvbrowser/webkit_ui_dlgtextbrowser.h \
                 ../../pvdevelop/generatepython.h \                         
                 ../../pvdevelop/generatephp.h \                            
                 ../../pvdevelop/generateperl.h \                           
-                ../../pvdevelop/generatetcl.h \                            
-                ../../pvdevelop/ui_dlgnewprj.h \                           
-                ../../pvdevelop/ui_dlgsearchreplace.h \                    
-                ../../pvdevelop/ui_dlginsertfunction.h \                   
-                ../../pvdevelop/ui_dlgpastewidget.h \                      
-                ../../pvdevelop/ui_dlgdaemon.h \                           
-                ../../pvdevelop/ui_dlgproperty.h \                         
-                ../../pvdevelop/ui_dlginsertwidget.h \                     
-                ../../pvdevelop/ui_dlgeditlayout.h \                       
+                ../../pvdevelop/generatetcl.h \
                                                                            
 SOURCES       = ../../pvbrowser/MyWidgets.cpp \                            
-                ../../pvbrowser/MyTextBrowser_v4.cpp \
+                ../../pvbrowser/MyTextBrowser_v5.cpp \
                 ../../pvbrowser/qwtplotwidget.cpp \                        
                 ../../pvbrowser/QDrawWidget.cpp \                          
                 ../../pvbrowser/QImageWidget.cpp \                         
@@ -102,8 +95,15 @@ FORMS         = ../../pvdevelop/dlgnewprj.ui \
 INCLUDEPATH  += ../../qwt/src                                              
 INCLUDEPATH  += ../../pvbrowser                                            
 INCLUDEPATH  += ../../pvdevelop                                            
-                                                                           
+
+UI_DIR = ui
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+    LIBS += -L../../qwt/lib -lqwt
+} else {
 LIBS         += ../../qwt/lib/libqwt.a                                     
+}
                                                                            
 RESOURCES     = ../../pvdevelop/pvdevelop.qrc                              
 TARGET = pvdevelop                                                         

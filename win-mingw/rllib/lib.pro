@@ -1,6 +1,6 @@
 TEMPLATE  = lib
 #CONFIG  += warn_on release Hilscher qt
-CONFIG   += warn_on release staticlib
+CONFIG   += warn_on staticlib
 #CONFIG  += warn_on release
 CONFIG   -= qt
 DEFINES  -= UNICODE
@@ -141,3 +141,17 @@ unix:header.extra = mkdir -p /usr/local/include/rllib
 unix:target.path = /usr/lib
 unix:target.files = librllib.*
 unix:INSTALLS = target header
+
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_MSVC_LIB}
+    LIBS         += -lWs2_32 -luser32 -ladvapi32
+# FIX: 无法将参数 1 从 char[]/const char * 转换为LPCWSTR
+    DEFINES -= UNICODE
+
+# for build nodave
+#    DEFINES *= BCCWIN
+#    LIBS += -L$${PVB_ROOT}/win-msvc/libnodave-0.8.5.1/win -llibnodave
+
+
+}

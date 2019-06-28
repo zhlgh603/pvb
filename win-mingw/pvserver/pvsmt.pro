@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = lib
-CONFIG  += warn_on release staticlib
+CONFIG  += warn_on staticlib
 CONFIG  -= qt
 DEFINES -= UNICODE
 DEFINES += BCCWIN
@@ -12,7 +12,7 @@ DEFINES += "WINVER=0x0501"
 win32-g++ {
 }
 else {
-DEFINES += IS_OLD_MSVCPP
+#DEFINES += IS_OLD_MSVCPP
 }
 
 INCLUDEPATH += ../../pvserver
@@ -27,3 +27,8 @@ SOURCES += ../../pvserver/glencode.cpp      \
            ../../pvserver/wthread.cpp
 
 TARGET = serverlib
+
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_MSVC_LIB}
+}

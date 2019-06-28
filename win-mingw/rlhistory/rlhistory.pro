@@ -3,14 +3,21 @@
 ######################################################################     
                                                                            
 TEMPLATE = app                                                             
-CONFIG  += console warn_on release                                         
+CONFIG  += console warn_on
 CONFIG  -= qt                                                              
 INCLUDEPATH += ../../rllib/rlhistory                                       
 DEFINES -= UNICODE
 
 # Input                                                                    
 # HEADERS +=                                                               
-SOURCES     += ../../rllib/rlhistory/rlhistory.cpp                         
-LIBS        += ../bin/librllib.a                                           
+SOURCES     += ../../rllib/rlhistory/rlhistory.cpp
 INCLUDEPATH += ../../rllib/lib                                             
 TARGET = rlhistory                                                         
+
+include(../../common.pri)
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+    LIBS += -L$$PVB_MSVC_LIB -lrllib
+} else {
+LIBS        += ../bin/librllib.a
+}
