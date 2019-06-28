@@ -38,7 +38,7 @@ VVERSION = $$[QT_VERSION]
 isEmpty(VVERSION) {
 
     # Qt 3
-    CONFIG           += release     # release/debug
+#    CONFIG           += release     # release/debug
 }
 else {
     # Qt 4
@@ -49,12 +49,12 @@ else {
         # might need a debug version. 
         # Enable debug_and_release + build_all if you want to build both.
 
-        CONFIG           += release     # release/debug/debug_and_release
-        #CONFIG           += release_and_release
-        #CONFIG           += build_all
+#        CONFIG           += release     # release/debug/debug_and_release
+#        CONFIG           += release_and_release
+#        CONFIG           += build_all
     }
     else {
-        CONFIG           += release     # release/debug
+#        CONFIG           += release     # release/debug
     }
 }
 
@@ -67,7 +67,7 @@ DEBUG_SUFFIX        =
 RELEASE_SUFFIX      = 
 
 win32 {
-    DEBUG_SUFFIX      = d
+#    DEBUG_SUFFIX      = d
 }
 
 ######################################################################
