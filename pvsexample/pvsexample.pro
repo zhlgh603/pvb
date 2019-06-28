@@ -3,7 +3,7 @@
 ######################################################################
 
 TEMPLATE = app
-CONFIG  += warn_on release console
+CONFIG  += warn_on console
 CONFIG  -= qt
 
 # Input
@@ -62,3 +62,42 @@ win32:INCLUDEPATH += $(PVBDIR)/rllib/lib
 
 #DEFINES += USE_INETD
 TARGET = pvsexample
+
+include(../common.pri)
+
+msvc {
+    DESTDIR = $${PVB_OUT_DIR}
+
+    INCLUDEPATH += $${PVB_ROOT}/pvserver
+    INCLUDEPATH += $${PVB_ROOT}/rllib/lib
+    LIBS = -L$${PVB_MSVC_LIB}
+    LIBS         += -lserverlib -lrllib
+    LIBS         += -lWs2_32 -luser32 -ladvapi32
+
+}
+
+DISTFILES += \
+    xchat.png \
+    kmplot.png \
+    gnumeric.png \
+    kpl.png \
+    package_network.png \
+    xapp.png \
+    taskbar.png \
+    xedit.png \
+    autocad.png \
+    index.html \
+    page.html \
+
+copy_cmd = echo copy files
+    for(fi, DISTFILES) {
+        exists($$PWD/$$fi) {
+            copy_cmd += &&
+            copy_cmd += $(COPY_FILE) $$quote($$PWD/$$fi) $$DESTDIR
+        }
+    }
+distcopy.commands = $$copy_cmd
+distcopy.commands ~= s,/,\\\\,g
+QMAKE_EXTRA_TARGETS += distcopy
+POST_TARGETDEPS += distcopy
+
